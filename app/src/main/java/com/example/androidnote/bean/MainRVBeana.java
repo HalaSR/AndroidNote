@@ -1,5 +1,7 @@
 package com.example.androidnote.bean;
 
+import com.example.androidnote.ClassifyAdapter;
+
 /**
  * @Author lop
  * @Date 2021/8/8 13:20

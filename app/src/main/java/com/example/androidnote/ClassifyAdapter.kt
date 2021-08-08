@@ -1,6 +1,7 @@
 package com.example.androidnote
 
 import android.content.Context
+import android.content.IntentFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,6 +40,9 @@ class ClassifyAdapter(context: Context, list: List<MainRVBeana>) :
             is ClassifyViewHolder -> holder.textView.setText(msg)
             is ClassifyViewHolder2 -> holder.textView.setText(msg)
         }
+        holder.itemView.setOnClickListener {
+            onClick.invoke(position)
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -55,5 +59,10 @@ class ClassifyAdapter(context: Context, list: List<MainRVBeana>) :
 
     inner class ClassifyViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView = itemView.findViewById<TextView>(R.id.textView)
+    }
+
+    private lateinit var onClick: (Int) -> Unit
+    fun setOnItemClickListener(onClick: (Int) -> Unit) {
+        this.onClick = onClick
     }
 }

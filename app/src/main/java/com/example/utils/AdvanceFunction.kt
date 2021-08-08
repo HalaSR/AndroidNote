@@ -1,5 +1,7 @@
 package com.example.utils
 
+import android.util.Log
+
 /**
  * @Author lop
  * @Date 2021/8/8 17:06

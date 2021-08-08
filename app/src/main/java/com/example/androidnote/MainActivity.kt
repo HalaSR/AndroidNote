@@ -15,10 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidnote.bean.MainRVBeana
-import com.example.utils.dp2px
-import com.example.utils.example
-import com.example.utils.minus
-import com.example.utils.plus
+import com.example.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.StringBuilder
 
@@ -34,11 +31,10 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.addItemDecoration(MyItemDecoration())
         recyclerView.adapter = mAdapter
+        mAdapter.setOnItemClickListener {
+            Toast.makeText(this, "lambda类型：position == $it", Toast.LENGTH_SHORT).show()
+        }
 
-        Log.e("------->plus", example(20, 11, ::plus).toString())
-        Log.e("------->minus", example(20, 11, ::minus).toString())
-        Log.e("------->plus2", example(20, 11) { n1, n2 -> n1 + n2 }.toString())
-        Log.e("------->minus2", example(20, 11) { n1, n2 -> n1 - n2 }.toString())
     }
 
     inner class MyItemDecoration : RecyclerView.ItemDecoration() {
