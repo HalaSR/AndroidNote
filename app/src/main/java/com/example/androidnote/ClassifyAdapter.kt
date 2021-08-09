@@ -41,7 +41,10 @@ class ClassifyAdapter(context: Context, list: List<MainRVBeana>) :
             is ClassifyViewHolder2 -> holder.textView.setText(msg)
         }
         holder.itemView.setOnClickListener {
-            onClick.invoke(position)
+            //onClick指向一个函数类型的对象，可以怎样使用函数也就可以怎样使用它，除此之外函数类型的对象还有一个特有的方法invoke
+            //所以这里有两种方法实现点击事件  onCLick(position) == onClick.invoke()
+//            onClick.invoke(position)
+            onClick(position)
         }
     }
 
@@ -61,8 +64,5 @@ class ClassifyAdapter(context: Context, list: List<MainRVBeana>) :
         val textView = itemView.findViewById<TextView>(R.id.textView)
     }
 
-    private lateinit var onClick: (Int) -> Unit
-    fun setOnItemClickListener(onClick: (Int) -> Unit) {
-        this.onClick = onClick
-    }
+    lateinit var onClick: (Int) -> Unit
 }

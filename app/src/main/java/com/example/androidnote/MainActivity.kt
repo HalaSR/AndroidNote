@@ -1,5 +1,6 @@
 package com.example.androidnote
 
+import android.content.SharedPreferences
 import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -17,6 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidnote.bean.MainRVBeana
 import com.example.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.lang.StringBuilder
 
 class MainActivity : AppCompatActivity() {
@@ -31,8 +36,31 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.addItemDecoration(MyItemDecoration())
         recyclerView.adapter = mAdapter
-        mAdapter.setOnItemClickListener {
-            Toast.makeText(this, "lambda类型：position == $it", Toast.LENGTH_SHORT).show()
+        mAdapter.onClick = {
+            //读数据
+            val builder = StringBuilder()
+            val inputStream = openFileInput("myNotes")
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            reader.use {
+                it.forEachLine { builder.append(it) }
+            }
+            Toast.makeText(this,builder.toString(),Toast.LENGTH_SHORT).show()
+        }
+//        mAdapter.onClick = fun(num:Int){
+//            Toast.makeText(this, "匿名函数类型：position == $num", Toast.LENGTH_SHORT).show()
+//        }
+
+
+        //写数据
+        val outPutSystem = openFileOutput("myNotes", MODE_APPEND)
+        val writer = BufferedWriter(OutputStreamWriter(outPutSystem))
+        writer.use {
+            it.write("hello world!!!")
+        }
+
+        //high-order简化SharedPreferences
+        getSharedPreferences("MySharedPreferences", MODE_PRIVATE).saveData {
+            putString("key","hello world!!!")
         }
 
     }
