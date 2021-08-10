@@ -2,6 +2,7 @@ package com.example.utils
 
 import android.content.SharedPreferences
 import android.util.Log
+import com.example.androidnote.LaterClass
 import java.lang.StringBuilder
 
 /**
@@ -19,13 +20,15 @@ fun example(num1: Int, num2: Int, operation: (Int, Int) -> Int): Int {
 fun plus(num1: Int, num2: Int) = num1 + num2
 fun minus(num1: Int, num2: Int) = num1 - num2
 
-fun StringBuilder.build(block:StringBuilder.() -> Unit): StringBuilder {
+fun StringBuilder.build(block: StringBuilder.() -> Unit): StringBuilder {
     block()
     return this
 }
 
-fun SharedPreferences.saveData(block:SharedPreferences.Editor.()->Unit){
+fun SharedPreferences.saveData(block: SharedPreferences.Editor.() -> Unit) {
     val editor = edit()
     editor.block()
     editor.apply()
 }
+
+fun <T> lazy(block: () -> T) = LaterClass(block)

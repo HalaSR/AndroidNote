@@ -42,6 +42,7 @@ class ClassifyAdapter(context: Context, list: List<MainRVBeana>) :
         }
         holder.itemView.setOnClickListener {
             //onClick指向一个函数类型的对象，可以怎样使用函数也就可以怎样使用它，除此之外函数类型的对象还有一个特有的方法invoke
+            //对象是不能通过对象加括号来调用egobj() 但是函数类型的对象可以：onClick(position)它其实最终还是调用的onClick.invoke()
             //所以这里有两种方法实现点击事件  onCLick(position) == onClick.invoke()
 //            onClick.invoke(position)
             onClick(position)
