@@ -1,14 +1,29 @@
 package com.example.androidnote
 
+import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Rect
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidnote.bean.MainRVBeana
+import com.example.androidnote.file.MainFileActivity
+import com.example.androidnote.media.MainMediaActivity
+import com.example.androidnote.provider.MainProviderActivity
 import com.example.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedReader
@@ -30,45 +45,71 @@ class MainActivity : AppCompatActivity() {
         val builder = StringBuilder()
         builder.append("hello kotlin by")
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var list = mutableListOf<MainRVBeana>()
         list.add(MainRVBeana("CustomView", 0))
-        list.add(MainRVBeana("Object Animator", 1))
+        list.add(MainRVBeana("Camera Album", 1))
+        list.add(MainRVBeana("File Write", 2))
+        list.add(MainRVBeana("File Read", 3))
+        list.add(MainRVBeana("SQLite", 4))
+        list.add(MainRVBeana("File", 5))
+        list.add(MainRVBeana("ContentResolver", 0))
         mAdapter = ClassifyAdapter(list = list, context = this)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.addItemDecoration(MyItemDecoration())
         recyclerView.adapter = mAdapter
         mAdapter.onClick = {
-            //读数据
-            val builder = StringBuilder()
-            val inputStream = openFileInput("myNotes")
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            reader.use {
-                it.forEachLine { builder.append(it) }
+            Log.e("--lazy---", num.toString())
+            when (it) {
+                0 -> Toast.makeText(this, "CustomView", Toast.LENGTH_SHORT).show()
+                1 -> launcherActivity(this, MainMediaActivity::class.java)
+                2 -> writeSomeThing()
+                3 -> readHistory()
+                5 -> launcherActivity(this, MainFileActivity::class.java)
+                6 -> launcherActivity(this, MainProviderActivity::class.java)
             }
-            Toast.makeText(this, builder.toString(), Toast.LENGTH_SHORT).show()
-            Log.e("--lazy---",num.toString())
         }
+        //rv利用匿名函数实现点击事件
 //        mAdapter.onClick = fun(num:Int){
 //            Toast.makeText(this, "匿名函数类型：position == $num", Toast.LENGTH_SHORT).show()
 //        }
 
 
+        //high-order简化SharedPreferences
+        getSharedPreferences("MySharedPreferences", MODE_PRIVATE).saveData {
+            putString("key", "hello world!!!")
+        }
+
+    }
+
+    /**************************************************file读写相关******************************************************/
+    private fun readHistory() {
+        //读数据
+        val builder = StringBuilder()
+        val inputStream = openFileInput("myNotes")
+        val reader = BufferedReader(InputStreamReader(inputStream))
+        reader.use {
+            it.forEachLine { builder.append(it) }
+        }
+        Toast.makeText(this, builder.toString(), Toast.LENGTH_SHORT).show()
+    }
+
+    private fun writeSomeThing() {
         //写数据
         val outPutSystem = openFileOutput("myNotes", MODE_PRIVATE)
         val writer = BufferedWriter(OutputStreamWriter(outPutSystem))
         writer.use {
             it.write("hello world!!!")
         }
-
-        //high-order简化SharedPreferences
-        getSharedPreferences("MySharedPreferences", MODE_PRIVATE).saveData {
-            putString("key", "hello world!!!")
-        }
+        Toast.makeText(this, "写出成功", Toast.LENGTH_SHORT).show()
     }
 
+    /**
+     * 自定义rv ItemDecoration
+     */
     inner class MyItemDecoration : RecyclerView.ItemDecoration() {
         override fun getItemOffsets(
             outRect: Rect,

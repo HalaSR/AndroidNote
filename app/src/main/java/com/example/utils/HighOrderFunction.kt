@@ -1,5 +1,7 @@
 package com.example.utils
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import com.example.androidnote.LaterClass
@@ -32,3 +34,8 @@ fun SharedPreferences.saveData(block: SharedPreferences.Editor.() -> Unit) {
 }
 
 fun <T> lazy(block: () -> T) = LaterClass(block)
+
+fun <T> launcherActivity(context: Context, targetClass: Class<T>) {
+    val intent = Intent(context, targetClass)
+    context.startActivity(intent)
+}
