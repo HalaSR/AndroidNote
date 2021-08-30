@@ -65,7 +65,8 @@ class MainActivity : AppCompatActivity() {
             Log.e("--lazy---", num.toString())
             when (it) {
                 0 -> Toast.makeText(this, "CustomView", Toast.LENGTH_SHORT).show()
-                1 -> launcherActivity(this, MainMediaActivity::class.java)
+//                1 -> launcherActivity(this, MainMediaActivity::class.java)
+                1 -> launchActivity<MainMediaActivity>(this)
                 2 -> writeSomeThing()
                 3 -> readHistory()
                 5 -> launcherActivity(this, MainFileActivity::class.java)

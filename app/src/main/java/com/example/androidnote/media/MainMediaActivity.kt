@@ -21,7 +21,7 @@ class MainMediaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_media)
 
-        val imageFile = File(externalCacheDir,"output_Image.jpg")
+        val imageFile = File(getExternalFilesDir(null),"output_Image.jpg")
         if (imageFile.exists()){
             imageFile.delete()
         }

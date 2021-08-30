@@ -28,7 +28,8 @@ class MainProviderActivity : AppCompatActivity() {
 
 
     private fun readContacts() {
-        //projection指定查询的列名  selection约束条件 selectionArgs给约束条件的占位符(?)提供具体的值
+        //projection指定查询的列名  这样得到的cursor也就只包含这两个数据
+        // selection约束条件 selectionArgs给约束条件的占位符(?)提供具体的值 通过这两个参数组合出的筛选条件会去筛选出符合要求的数据
         //注：刚开始写的时候在selection中and和or的后面没有加空格 这会报sql语法错误 它们是一个关键字最好和前后用空格分开 否则会跟和筛选条件连在一起 这样就造成语法错误了
         contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
