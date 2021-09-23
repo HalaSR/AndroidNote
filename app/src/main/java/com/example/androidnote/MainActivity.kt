@@ -21,16 +21,24 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidnote.bean.MainRVBeana
+import com.example.androidnote.coroutines.MainCoroutineActivity
 import com.example.androidnote.file.MainFileActivity
+import com.example.androidnote.jetpack.MainJetpackActivity
 import com.example.androidnote.media.MainMediaActivity
 import com.example.androidnote.provider.MainProviderActivity
 import com.example.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.BufferedReader
 import java.io.BufferedWriter
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.lang.StringBuilder
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: ClassifyAdapter
@@ -57,6 +65,8 @@ class MainActivity : AppCompatActivity() {
         list.add(MainRVBeana("SQLite", 4))
         list.add(MainRVBeana("File", 5))
         list.add(MainRVBeana("ContentResolver", 0))
+        list.add(MainRVBeana("Coroutine", 1))
+        list.add(MainRVBeana("Jetpack", 2))
         mAdapter = ClassifyAdapter(list = list, context = this)
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recyclerView.addItemDecoration(MyItemDecoration())
@@ -71,6 +81,8 @@ class MainActivity : AppCompatActivity() {
                 3 -> readHistory()
                 5 -> launcherActivity(this, MainFileActivity::class.java)
                 6 -> launcherActivity(this, MainProviderActivity::class.java)
+                7 -> launchActivity<MainCoroutineActivity>(this)
+                8 -> launchActivity<MainJetpackActivity>(this)
             }
         }
         //rv利用匿名函数实现点击事件
@@ -84,6 +96,38 @@ class MainActivity : AppCompatActivity() {
             putString("key", "hello world!!!")
         }
 
+        val iFetchBaidu = RetrofitUtiil.createService<IFetchBaidu>()
+        iFetchBaidu.fetchHomeData().enqueue(object :Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                textView.text = "this is from retrofit ${response.body()}"
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+            }
+
+        })
+
+//        thread {
+//            val response = StringBuilder()
+//            val url = URL("https://www.baidu.com")
+//            val connection = url.openConnection() as HttpURLConnection
+//            connection.readTimeout = 5000
+//            connection.connectTimeout = 5000
+//            val stream = connection.inputStream
+//            val reader = BufferedReader(InputStreamReader(stream))
+//            reader.use {
+//                reader.forEachLine {
+//                    response.append(it)
+//                }
+//            }
+//            showResponse(response)
+//        }
+    }
+
+    private fun showResponse(response: StringBuilder) {
+        runOnUiThread {
+            textView.text = response.toString()
+        }
     }
 
     /**************************************************file读写相关******************************************************/

@@ -63,3 +63,5 @@ fun printString(str:String,block:(String) -> Unit){
 }
 
 infix fun String.beginWith(str: String) = startsWith(str)
+
+inline fun <reified T> getType() = T::class.java

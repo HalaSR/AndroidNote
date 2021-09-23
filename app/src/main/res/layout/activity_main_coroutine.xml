@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".coroutines.MainCoroutineActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnGlobalScope"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="GlobalScope"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnrunBlocking"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="runBlocking"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/btnrunBlockinglaunch"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="runBlocking launch"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnAsync"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="async test"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+        <Button
+            android:id="@+id/btnAsync2"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:text="async2 test"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
